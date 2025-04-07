@@ -1,0 +1,25 @@
+[General]
+log_path=logs/fake_syslog.log
+alert_output_path=alerts.txt
+alert_output_json=alerts.json
+external_alert_command=./send_email.sh -r test.java.153@gmail.com
+
+[Thresholds]
+failed_login_threshold=3
+error_repeat_threshold=5
+
+[Anomalies]
+port_scan_threshold=10
+suspicious_time_threshold=7
+burst_threshold=20
+
+[Deduplication]
+dedup_interval_seconds=60
+
+[Enable]
+enable_failed_login=1
+enable_error=1
+enable_unauth=1
+enable_port_scan=1
+enable_suspicious_time=1
+enable_burst=1
