@@ -1,0 +1,41 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Example for caching dependencies (uncomment and customize if needed)
+      # - name: Cache C/C++ build dependencies
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       build/
+      #     key: ${{ runner.os }}-build-${{ hashFiles('**/CMakeLists.txt') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-build-
+
+      - name: Configure
+        run: ./configure
+
+      - name: Build
+        run: make
+
+      - name: Run Tests
+        run: make check
+
+      - name: Dist Check
+        run: make distcheck
+
+      # Optional: Add additional analysis steps here
+      # - name: Run Static Analysis
+      #   run: make static-analysis
