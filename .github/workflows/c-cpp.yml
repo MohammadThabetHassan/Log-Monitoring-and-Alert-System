@@ -14,23 +14,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Generate Configure Script (if needed)
-        run: |
-          if [ ! -f ./configure ]; then
-              echo "No configure script found, running autoreconf -fi..."
-              autoreconf -fi
-          else
-              echo "Configure script already exists."
-          fi
+      - name: Create Build Directory
+        run: mkdir -p build && cd build
 
-      - name: Configure
-        run: ./configure
+      - name: Configure with CMake
+        run: cmake ..
 
-      - name: Build
-        run: make
+      - name: Build with Make
+        run: cmake --build .
 
       - name: Run Tests
-        run: make check
-
-      - name: Dist Check
-        run: make distcheck
+        run: ctest --output-on-failure
