@@ -18,7 +18,4 @@ jobs:
         run: make
 
       - name: Run Tests
-        run: make check
-
-      - name: Perform Dist Check
-        run: make distcheck
+        run: make test
