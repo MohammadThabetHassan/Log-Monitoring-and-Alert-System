@@ -11,18 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Example for caching dependencies (uncomment and customize if needed)
-      # - name: Cache C/C++ build dependencies
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: |
-      #       build/
-      #     key: ${{ runner.os }}-build-${{ hashFiles('**/CMakeLists.txt') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-build-
+      - name: Generate Configure Script (if needed)
+        run: |
+          if [ ! -f ./configure ]; then
+              echo "No configure script found, running autoreconf -fi..."
+              autoreconf -fi
+          else
+              echo "Configure script already exists."
+          fi
 
       - name: Configure
         run: ./configure
@@ -35,7 +34,3 @@ jobs:
 
       - name: Dist Check
         run: make distcheck
-
-      # Optional: Add additional analysis steps here
-      # - name: Run Static Analysis
-      #   run: make static-analysis
