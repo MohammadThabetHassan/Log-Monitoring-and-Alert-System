@@ -42,20 +42,7 @@ Developed primarily in **C** and **Bash**, the system leverages the efficiency a
 
 Below is a simplified architecture diagram using Mermaid syntax:
 
-```mermaid
-flowchart TD
-    A[Log Files] -->|Appended Logs| B[logParser.c]
-    B --> C{Alert Rules}
-    C -- Failed Login --> D[process_alert]
-    C -- Unauthorized Access --> D
-    C -- Error --> D
-    D --> E[Output Files: alerts.txt / alerts.json]
-    D --> F[External Commands]
-    F --> G[send_email.sh]
-    G --> H[Gmail SMTP]
-    B --> I[monitor.sh (Interactive/Auto)]
-    I --> A
-```
+
 
 ## Configuration Files
 
