@@ -14,6 +14,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Install Dependencies
+        run: sudo apt-get update && sudo apt-get install -y swaks
+
       - name: Build Project
         run: make
 
