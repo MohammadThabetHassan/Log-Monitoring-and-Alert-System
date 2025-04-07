@@ -13,8 +13,7 @@ $(TARGET): logParser.c
 # The test target:
 # 1. Generates fake logs using generate_fake_logs.sh.
 # 2. Ensures both logParser and send_email.sh are executable.
-# 3. Sets the EMAIL environment variable to your desired email.
-# 4. Runs logParser with the configuration file, logs, and parameters.
+# 3. Sets the EMAIL environment variable and runs logParser.
 test: $(TARGET)
 	@echo "Generating fake logs using generate_fake_logs.sh..."
 	@chmod +x ./generate_fake_logs.sh
@@ -26,7 +25,7 @@ test: $(TARGET)
 	@echo "Running logParser test with EMAIL set to mohd20vm@gmail.com..."
 	EMAIL="mohd20vm@gmail.com" ./$(TARGET) config.txt logs/fake_syslog.log --keyword "login" --level "ERROR"
 
-# Clean target removes compiled binaries and any generated log files.
+# Clean target removes compiled binaries and generated logs.
 clean:
 	rm -f $(TARGET) *.o
 	rm -rf logs
