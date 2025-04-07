@@ -2,7 +2,7 @@
 log_path=logs/fake_syslog.log
 alert_output_path=alerts.txt
 alert_output_json=alerts.json
-external_alert_command=./send_email.sh -r test.java.153@gmail.com
+external_alert_command=./send_email.sh -r mohd20vm@gmail.com
 
 [Thresholds]
 failed_login_threshold=3
