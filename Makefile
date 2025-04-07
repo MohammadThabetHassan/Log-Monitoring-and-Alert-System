@@ -10,16 +10,21 @@ $(TARGET): logParser.c
 	$(CC) $(CFLAGS) -o $(TARGET) logParser.c
 	chmod +x $(TARGET)
 
-# The test target first runs the generate_fake_logs.sh script,
-# then explicitly sets the execute permission for logParser before executing it.
+# The test target:
+# 1. Generates fake logs using generate_fake_logs.sh.
+# 2. Ensures both logParser and send_email.sh are executable.
+# 3. Sets the EMAIL environment variable to your desired email.
+# 4. Runs logParser with the configuration file, logs, and parameters.
 test: $(TARGET)
 	@echo "Generating fake logs using generate_fake_logs.sh..."
 	@chmod +x ./generate_fake_logs.sh
 	./generate_fake_logs.sh
 	@echo "Ensuring logParser is executable..."
 	@chmod +x ./$(TARGET)
-	@echo "Running logParser test..."
-	./$(TARGET) config.txt logs/fake_syslog.log --keyword "login" --level "ERROR"
+	@echo "Ensuring send_email.sh is executable..."
+	@chmod +x ./send_email.sh
+	@echo "Running logParser test with EMAIL set to mohd20vm@gmail.com..."
+	EMAIL="mohd20vm@gmail.com" ./$(TARGET) config.txt logs/fake_syslog.log --keyword "login" --level "ERROR"
 
 # Clean target removes compiled binaries and any generated log files.
 clean:
