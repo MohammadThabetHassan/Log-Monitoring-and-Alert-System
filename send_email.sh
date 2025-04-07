@@ -48,11 +48,11 @@ For additional details, please refer to the system logs and monitoring dashboard
 
 # Send the email using swaks with TLS enabled.
 swaks --to "$recipient" \
-      --from "test.java.153@gmail.com" \
+      --from "alert@example.com" \
       --server smtp.gmail.com:587 \
       --tls \
       --auth LOGIN \
       --auth-user "test.java.153@gmail.com" \
-      --auth-password "dxjottaxlhpcpzqi" \
+      --auth-password "your_actual_app_password" \
       --header "Subject: Enhanced Log Monitor Alert" \
       --body "$email_body"
