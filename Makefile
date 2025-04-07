@@ -5,9 +5,10 @@ TARGET = logParser
 # Default target builds the logParser binary.
 all: $(TARGET)
 
-# Build the logParser binary from logParser.c.
+# Build the logParser binary from logParser.c and add execution permission.
 $(TARGET): logParser.c
 	$(CC) $(CFLAGS) -o $(TARGET) logParser.c
+	chmod +x $(TARGET)
 
 # The test target first runs the generate_fake_logs.sh script,
 # then executes logParser with the configuration file, generated logs, and parameters.
