@@ -10,12 +10,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      GEMINAI_API_KEY: ${{ secrets.GEMINAI_API_KEY }}
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Install Dependencies
-        run: sudo apt-get update && sudo apt-get install -y swaks
+        run: sudo apt-get update && sudo apt-get install -y swaks jq
 
       - name: Build Project
         run: make
