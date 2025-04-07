@@ -1,26 +1,24 @@
-CC = gcc
-CFLAGS = -Wall -O2
-TARGET = logParser
+name: C/C++ CI
 
-# Default target builds the logParser binary.
-all: $(TARGET)
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
-# Build the logParser binary from logParser.c.
-$(TARGET): logParser.c
-	$(CC) $(CFLAGS) -o $(TARGET) logParser.c
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-# The test target first runs the generate_fake_logs.sh script,
-# then executes logParser with the configuration file, generated logs, and parameters.
-test: $(TARGET)
-	@echo "Generating fake logs using generate_fake_logs.sh..."
-	@chmod +x ./generate_fake_logs.sh
-	./generate_fake_logs.sh
-	@echo "Running logParser test..."
-	./$(TARGET) config.txt logs/fake_syslog.log --keyword "login" --level "ERROR"
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-# Clean target removes compiled binaries and any generated log files.
-clean:
-	rm -f $(TARGET) *.o
-	rm -rf logs
+      - name: Build Project
+        run: make
 
-.PHONY: all test clean
+      - name: Run Tests
+        run: make test
+
+      - name: Clean Up
+        run: make clean
