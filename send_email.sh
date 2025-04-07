@@ -1,28 +1,44 @@
 #!/bin/bash
-# A sample send_email.sh script that sends a more detailed email alert.
+# send_email.sh
+# This script sends a detailed email alert using swaks.
+# Usage: ./send_email.sh -r recipient_email
+# It expects the alert message to be piped into it.
 
-# Parse recipient from options (e.g. -r recipient_email)
+# Parse recipient from command-line options.
 while getopts "r:" opt; do
   case "$opt" in
     r) recipient="$OPTARG" ;;
+    *)
+      echo "Usage: $0 -r recipient_email"
+      exit 1
+      ;;
   esac
 done
 
 # Read the alert message from standard input.
 alert_message=$(cat)
 
-# You can also add extra details to the email body.
-additional_info="Alert generated on: $(date)
-Detailed Alert Information:
-- Check the log monitoring system for more insights.
-- Review the attached logs if needed."
+# Extra details can be appended to the alert message.
+# For example, if logParser outputs a summary to stdout, you might capture that in variables
+# (or have logParser output additional details to a file that you then read here).
+# Below is an example of additional information you might include.
+detailed_info="Detailed Alert Summary:
+- Date/Time: $(date)
+- Total lines processed: 100
+- Matching lines: 35
+- Failed login alerts: 1
+- Error alerts: 0
+- Unauthorized alerts: 0
+- Port scan alerts: 0
+- Burst alerts: 0
+For more information, please refer to the logs or the monitoring dashboard."
 
-# Combine the alert message with the additional info.
-email_body="$alert_message
+# Combine the original alert message with the extra details.
+email_body="${alert_message}
 
-$additional_info"
+${detailed_info}"
 
-# Use swaks to send the email.
+# Send the email using swaks.
 swaks --to "$recipient" \
       --from "alert@example.com" \
       --server smtp.gmail.com:587 \
