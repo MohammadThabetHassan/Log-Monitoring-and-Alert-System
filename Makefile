@@ -11,11 +11,13 @@ $(TARGET): logParser.c
 	chmod +x $(TARGET)
 
 # The test target first runs the generate_fake_logs.sh script,
-# then executes logParser with the configuration file, generated logs, and parameters.
+# then explicitly sets the execute permission for logParser before executing it.
 test: $(TARGET)
 	@echo "Generating fake logs using generate_fake_logs.sh..."
 	@chmod +x ./generate_fake_logs.sh
 	./generate_fake_logs.sh
+	@echo "Ensuring logParser is executable..."
+	@chmod +x ./$(TARGET)
 	@echo "Running logParser test..."
 	./$(TARGET) config.txt logs/fake_syslog.log --keyword "login" --level "ERROR"
 
