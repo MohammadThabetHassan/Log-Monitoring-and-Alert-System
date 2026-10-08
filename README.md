@@ -1,8 +1,7 @@
 # 🔍 Log Monitoring and Alert System
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://example.com)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Made With C+Bash](https://img.shields.io/badge/made%20with-C%20%2B%20Bash-blue.svg)](https://example.com)
+![Made With C+Bash](https://img.shields.io/badge/made%20with-C%20%2B%20Bash-blue.svg)
 
 ## Overview
 
@@ -42,7 +41,18 @@ Developed primarily in **C** and **Bash**, the system leverages the efficiency a
 
 Below is a simplified architecture diagram using Mermaid syntax:
 
-
+```mermaid
+flowchart LR
+    G[generate_fake_logs.sh] --> L[(logs/fake_syslog.log)]
+    M[monitor.sh menu] -->|run parser| P[logParser]
+    CR[cron] -.->|scheduled run| P
+    C[config.txt] --> P
+    L --> P
+    P --> T[alerts.txt]
+    P --> J[alerts.json]
+    P -->|external_alert_command| E[send_email.sh]
+    E -->|swaks over TLS| S[Gmail SMTP]
+```
 
 ## Configuration Files
 
