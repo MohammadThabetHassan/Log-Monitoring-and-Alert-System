@@ -29,7 +29,7 @@ Developed primarily in **C** and **Bash**, the system leverages the efficiency a
 ## Features
 
 - **Real-time Log Monitoring:** Constantly scans log files and processes new entries as they are appended.
-- **Configurable Alert Rules:** Use simple INI and JSON configuration files to set thresholds, deduplication periods, and alert criteria.
+- **Configurable Alert Rules:** Use a simple `key=value` configuration file (`config.txt`) to set thresholds, deduplication periods, and alert criteria.
 - **Dual-format Alert Output:** Simultaneously outputs alerts in human-readable text and structured JSON format.
 - **Interactive Bash Menu:** Provides an automation interface via an interactive menu (monitor.sh) for on-demand operations.
 - **Email Alerting:** Alerts can be sent via an external script (`send_email.sh`) using Gmail SMTP with TLS encryption.
@@ -86,28 +86,9 @@ enable_suspicious_time=1
 enable_burst=1
 ```
 
-### JSON Configuration (`config.json`)
+### `config.json` (reference only)
 
-```json
-{
-  "log_path": "logs/fake_syslog.log",
-  "alert_output_txt": "alerts.txt",
-  "alert_output_json": "alerts.json",
-  "external_alert_command": "./send_email.sh -r admin@example.com",
-  "failed_login_threshold": 3,
-  "error_repeat_threshold": 5,
-  "port_scan_threshold": 10,
-  "suspicious_time_threshold": 7,
-  "burst_threshold": 5,
-  "dedup_interval_seconds": 60,
-  "enable_failed_login": true,
-  "enable_error": true,
-  "enable_unauth": true,
-  "enable_port_scan": true,
-  "enable_suspicious_time": true,
-  "enable_burst": true
-}
-```
+`logParser` only reads the `key=value` format shown above: lines starting with `#` or `[` are skipped, and every other line is parsed as `key=value`. Passing `config.json` to `logParser` will not load any settings. The repository's `config.json` groups the same keys into sections (`General`, `Thresholds`, `Anomalies`, `Deduplication`, `Enable`) and is kept as a reference for tools that prefer JSON; always run the parser with `config.txt`.
 
 **Explanation of Keys:**
 
@@ -115,7 +96,7 @@ enable_burst=1
 - **alert_output_path / alert_output_json:** Files where alert messages are stored in text and JSON formats.
 - **external_alert_command:** Command to run when an alert is triggered. Use `-r` to specify the recipient email.
 - **Threshold keys:** Numeric values determining when to trigger specific alerts.
-- **enable_*:** Boolean flags to activate or deactivate alert rules.
+- **enable_*:** `1` to enable or `0` to disable each alert rule.
 
 ## Script and Binary Documentation
 
