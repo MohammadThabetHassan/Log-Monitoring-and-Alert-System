@@ -143,14 +143,19 @@ Generates synthetic log entries to simulate potential security or system events.
 
 **CLI Flags:**
 
-- `-n`: Number of fake log lines to generate.
-- `-o`: Output file for generated logs.
-- `--interval`: Time interval between log entries.
+- `--count N`: Number of fake log lines to generate (default 100).
+- `--output FILE`: Output file for generated logs (default `./logs/fake_syslog.log`).
+- `--delay MS`: Delay between log entries in milliseconds (default 50).
+- `--start-time "YYYY-MM-DD HH:MM:SS"` / `--end-time "YYYY-MM-DD HH:MM:SS"`: Timestamp range for the generated entries (default: today).
+- `--severity {ERROR|WARNING|INFO}`: Generate only entries of one level.
+- `--ipv6`: Use IPv6 instead of IPv4 source addresses.
+
+Any other flag prints the usage line and exits with status 1.
 
 **Example:**
 
 ```bash
-./generate_fake_logs.sh -n 500 -o logs/fake_syslog.log --interval 1
+./generate_fake_logs.sh --count 500 --output logs/fake_syslog.log --delay 1
 ```
 
 ### send_email.sh
